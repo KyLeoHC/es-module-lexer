@@ -15,8 +15,8 @@
     "./js": "./dist/lexer.asm.js"
   },
   "scripts": {
-    "build": "npm install -g chomp ; chomp build",
-    "test": "npm install -g chomp ; chomp test"
+    "build": "chomp build",
+    "test": "chomp test"
   },
   "author": "Guy Bedford",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.2.224",
     "@types/node": "^18.7.1",
+    "chomp": "^0.2.11",
     "kleur": "^2.0.2",
     "mocha": "^5.2.0",
     "terser": "^5.14.2",

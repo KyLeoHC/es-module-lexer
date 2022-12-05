@@ -156,7 +156,7 @@ export function parse (source: string, name = '@'): readonly [
   if (!wasm)
     // actually returns a promise if init hasn't resolved (not type safe).
     // casting to avoid a breaking type change.
-    return init.then(() => parse(source)) as unknown as ReturnType<typeof parse>;
+    return init().then(() => parse(source)) as unknown as ReturnType<typeof parse>;
 
   const len = source.length + 1;
 
@@ -254,13 +254,20 @@ let wasm: {
   ss(): number;
 };
 
+let initTask: Promise<any>;
 
 /**
  * Wait for init to resolve before calling `parse`.
  */
-export const init = WebAssembly.compile(
-  (binary => typeof Buffer !== 'undefined' ? Buffer.from(binary, 'base64') : Uint8Array.from(atob(binary), x => x.charCodeAt(0)))
-  ('WASM_BINARY')
-)
-.then(WebAssembly.instantiate)
-.then(({ exports }) => { wasm = exports as typeof wasm; });
+ export const init = () => {
+  if (!initTask) {
+    initTask = WebAssembly.compile(
+      (binary => typeof Buffer !== 'undefined' ? Buffer.from(binary, 'base64') : Uint8Array.from(atob(binary), x => x.charCodeAt(0)))
+      ('WASM_BINARY')
+    )
+    .then(WebAssembly.instantiate)
+    .then(({ exports }) => { wasm = exports as typeof wasm; });
+  }
+
+  return initTask;
+};

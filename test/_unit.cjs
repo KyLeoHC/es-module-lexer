@@ -6,7 +6,7 @@ const init = (async () => {
   if (parse) return;
   if (process.env.WASM) {
     const m = await import('../dist/lexer.js');
-    await m.init;
+    await m.init();
     parse = m.parse;
   }
   else if (process.env.ASM) {
