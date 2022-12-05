@@ -1,5 +1,5 @@
 {
-  "name": "es-module-lexer",
+  "name": "@alioth-org/es-module-lexer",
   "version": "1.1.0",
   "description": "Lexes ES modules returning their import/export metadata",
   "main": "dist/lexer.cjs",
